@@ -18,11 +18,11 @@ const INITIAL_FORM: FormState = {
   date: todayISO(),
 };
 
-export function useExpenseForm() {
+export function useExpenseForm(token?: string) {
   const [form, setForm] = useState<FormState>(INITIAL_FORM);
   const [idempotencyKey, setIdempotencyKey] = useState(() => crypto.randomUUID());
 
-  const { mutate, isPending } = useCreateExpense();
+  const { mutate, isPending } = useCreateExpense(token);
 
   function handleChange(field: keyof FormState, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }));

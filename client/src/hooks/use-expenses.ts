@@ -4,14 +4,15 @@ import type { GetExpensesParams, CreateExpensePayload } from '../types/expense';
 
 const QUERY_KEY = 'expenses';
 
-export function useGetExpenses(params: GetExpensesParams = {}) {
+export function useGetExpenses(params: GetExpensesParams = {}, token?: string) {
   return useQuery({
     queryKey: [QUERY_KEY, params],
-    queryFn: () => expenseService.getExpenses(params),
+    queryFn: () => expenseService.getExpenses(params, token),
+    enabled: !!token,
   });
 }
 
-export function useCreateExpense() {
+export function useCreateExpense(token?: string) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -21,7 +22,7 @@ export function useCreateExpense() {
     }: {
       payload: CreateExpensePayload;
       idempotencyKey: string;
-    }) => expenseService.createExpense(payload, idempotencyKey),
+    }) => expenseService.createExpense(payload, idempotencyKey, token),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY] });
     },

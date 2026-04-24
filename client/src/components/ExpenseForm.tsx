@@ -18,8 +18,12 @@ const CATEGORY_OPTIONS = [
   ...CATEGORIES.map((c) => ({ value: c, label: c })),
 ];
 
-export function ExpenseForm() {
-  const { form, handleChange, handleSubmit, isPending } = useExpenseForm();
+interface ExpenseFormProps {
+  token?: string;
+}
+
+export function ExpenseForm({ token }: ExpenseFormProps) {
+  const { form, handleChange, handleSubmit, isPending } = useExpenseForm(token);
 
   return (
     <Card>
