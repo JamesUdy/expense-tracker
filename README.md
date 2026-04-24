@@ -2,6 +2,12 @@
 
 A full-stack personal expense tracker with user authentication, spending visualizations, and a demo account for instant access.
 
+## Live Demo
+
+**[expense-tracker-mu-flax-60.vercel.app](https://expense-tracker-mu-flax-60.vercel.app)**
+
+> The backend runs on Render's free tier and spins down after 15 minutes of inactivity. The first request after idle may take up to 30 seconds to respond — subsequent requests are fast.
+
 ## Features
 
 ### Authentication
@@ -36,7 +42,7 @@ A full-stack personal expense tracker with user authentication, spending visuali
 
 - **Frontend**: Vite 6 + React 19 + TypeScript + TailwindCSS v4 + TanStack Query v5 + Recharts
 - **Backend**: Node.js + Express 5 + TypeScript + Mongoose (MongoDB) + Zod + JWT
-- **Deploy**: Vercel (frontend) + Render (backend) + MongoDB Atlas (database)
+- **Hosting**: Vercel (frontend) + Render free tier (backend — cold starts may add ~30s on first load) + MongoDB Atlas (database)
 
 ## Design Decisions
 
