@@ -2,7 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import { requestLogger } from './middleware/requestLogger';
 import { errorHandler } from './middleware/errorHandler';
+import { requireAuth } from './middleware/auth';
 import expenseRoute from './routes/expense';
+import authRoute from './routes/auth';
 
 const app = express();
 
@@ -14,7 +16,8 @@ app.get('/health', (_req, res) => {
   res.json({ status: 'ok' });
 });
 
-app.use('/expenses', expenseRoute);
+app.use('/auth', authRoute);
+app.use('/expenses', requireAuth, expenseRoute);
 app.use(errorHandler);
 
 export { app };

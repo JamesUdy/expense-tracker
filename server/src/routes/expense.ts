@@ -13,7 +13,7 @@ router.get(
   validate(getExpensesSchema, 'query'),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const result = await service.list(req.query as Parameters<typeof service.list>[0]);
+      const result = await service.list(req.userId, req.query as Parameters<typeof service.list>[1]);
       res.status(HTTP_STATUS.OK).json(result);
     } catch (err) {
       logger.error('GET /expenses failed', { error: (err as Error).message });
@@ -35,7 +35,7 @@ router.post(
         return;
       }
 
-      const { expense, created } = await service.create(req.body, idempotencyKey);
+      const { expense, created } = await service.create(req.userId, req.body, idempotencyKey);
       res.status(created ? HTTP_STATUS.CREATED : HTTP_STATUS.OK).json(expense);
     } catch (err) {
       logger.error('POST /expenses failed', { error: (err as Error).message });

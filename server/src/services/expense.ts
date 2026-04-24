@@ -4,8 +4,8 @@ import type { CreateExpenseInput, GetExpensesInput } from '../schemas/expense';
 import logger from '../lib/logger';
 
 export class ExpenseService {
-  async list(query: GetExpensesInput) {
-    const filter: Record<string, unknown> = {};
+  async list(userId: string, query: GetExpensesInput) {
+    const filter: Record<string, unknown> = { userId };
     if (query.category) filter.category = query.category;
 
     const sortOrder = query.sort === 'date_asc' ? 1 : -1;
@@ -20,12 +20,12 @@ export class ExpenseService {
 
     const total_cents: number = totalResult[0]?.total ?? 0;
 
-    logger.info('Listed expenses', { count: expenses.length, filter });
+    logger.info('Listed expenses', { userId, count: expenses.length });
     return { expenses, total_cents };
   }
 
-  async create(body: CreateExpenseInput, idempotencyKey: string) {
-    const existing = await Expense.findOne({ idempotency_key: idempotencyKey }).lean();
+  async create(userId: string, body: CreateExpenseInput, idempotencyKey: string) {
+    const existing = await Expense.findOne({ userId, idempotency_key: idempotencyKey }).lean();
     if (existing) {
       logger.info('Idempotent hit — returning existing expense', { idempotencyKey });
       return { expense: existing, created: false };
@@ -33,6 +33,7 @@ export class ExpenseService {
 
     try {
       const expense = await Expense.create({
+        userId,
         amount: toCents(body.amount),
         category: body.category,
         description: body.description ?? '',
@@ -45,7 +46,7 @@ export class ExpenseService {
     } catch (err: unknown) {
       //#region duplicate key race-condition fallback
       if (this.isDuplicateKeyError(err)) {
-        const race = await Expense.findOne({ idempotency_key: idempotencyKey }).lean();
+        const race = await Expense.findOne({ userId, idempotency_key: idempotencyKey }).lean();
         if (race) {
           logger.warn('Race-condition idempotent hit', { idempotencyKey });
           return { expense: race, created: false };
