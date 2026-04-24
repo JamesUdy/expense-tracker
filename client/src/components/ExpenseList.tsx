@@ -17,12 +17,12 @@ function SkeletonRow() {
 //#endregion
 
 const CATEGORY_COLORS: Record<string, string> = {
-  Food: 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300',
-  Transport: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
-  Shopping: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300',
-  Health: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300',
-  Entertainment: 'bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300',
-  Other: 'bg-(--color-muted) text-(--color-muted-foreground)',
+  Food:          'bg-orange-100 text-black dark:bg-orange-900/40 dark:text-orange-300',
+  Transport:     'bg-blue-100 text-black dark:bg-blue-900/40 dark:text-blue-300',
+  Shopping:      'bg-purple-100 text-black dark:bg-purple-900/40 dark:text-purple-300',
+  Health:        'bg-green-100 text-black dark:bg-green-900/40 dark:text-green-300',
+  Entertainment: 'bg-pink-100 text-black dark:bg-pink-900/40 dark:text-pink-300',
+  Other:         'bg-slate-100 text-black dark:bg-slate-800 dark:text-slate-300',
 };
 
 interface ExpenseListProps {

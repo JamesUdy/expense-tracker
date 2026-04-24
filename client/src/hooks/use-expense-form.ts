@@ -32,7 +32,7 @@ export function useExpenseForm() {
     e.preventDefault();
 
     const payload: CreateExpensePayload = {
-      amount: Math.round(parseFloat(form.amount) * 100),
+      amount: parseFloat(form.amount),
       category: form.category,
       description: form.description,
       date: form.date,

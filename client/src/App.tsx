@@ -4,6 +4,7 @@ import { ExpenseForm } from './components/ExpenseForm';
 import { ExpenseFilters } from './components/ExpenseFilters';
 import { ExpenseList } from './components/ExpenseList';
 import { ExpenseSummary } from './components/ExpenseSummary';
+import { SpendingChart } from './components/SpendingChart';
 import type { GetExpensesParams } from './types/expense';
 
 //#region dark mode
@@ -64,6 +65,7 @@ export default function App() {
           <div className="flex flex-col gap-6">
             <ExpenseForm />
             <ExpenseSummary totalCents={totalCents} expenses={expenses} />
+            <SpendingChart expenses={expenses} />
           </div>
 
           {/* Right column */}
