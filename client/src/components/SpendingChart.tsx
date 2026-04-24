@@ -52,7 +52,7 @@ export function SpendingChart({ expenses }: SpendingChartProps) {
   return (
     <Card>
       <h2 className="mb-4 text-base font-semibold text-(--color-foreground)">Spending Breakdown</h2>
-      <ResponsiveContainer width="100%" height={220}>
+      <ResponsiveContainer width="100%" height={256}>
         <PieChart>
           <Pie
             data={data}
