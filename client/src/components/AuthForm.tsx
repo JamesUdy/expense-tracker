@@ -11,11 +11,13 @@ interface AuthFormProps {
 }
 
 const INITIAL: AuthFormState = { email: '', password: '' };
+const DEMO_CREDENTIALS = { email: 'demo@example.com', password: 'demo1234' };
 
 export function AuthForm({ onAuth }: AuthFormProps) {
   const [mode, setMode] = useState<'login' | 'register'>('login');
   const [form, setForm] = useState<AuthFormState>(INITIAL);
   const [isPending, setIsPending] = useState(false);
+  const [isDemoLoading, setIsDemoLoading] = useState(false);
   const { login, register } = useAuth();
 
   function handleChange(field: keyof AuthFormState, value: string) {
@@ -38,6 +40,19 @@ export function AuthForm({ onAuth }: AuthFormProps) {
       toast.error(err instanceof Error ? err.message : 'Something went wrong.');
     } finally {
       setIsPending(false);
+    }
+  }
+
+  async function handleDemo() {
+    setIsDemoLoading(true);
+    try {
+      await login(DEMO_CREDENTIALS.email, DEMO_CREDENTIALS.password);
+      toast.success('Signed in as demo account');
+      onAuth();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Demo login failed.');
+    } finally {
+      setIsDemoLoading(false);
     }
   }
 
@@ -69,6 +84,23 @@ export function AuthForm({ onAuth }: AuthFormProps) {
             {mode === 'login' ? 'Sign in' : 'Create account'}
           </Button>
         </form>
+
+        <div className="my-4 flex items-center gap-3">
+          <hr className="flex-1 border-(--color-border)" />
+          <span className="text-xs text-(--color-muted-foreground)">or</span>
+          <hr className="flex-1 border-(--color-border)" />
+        </div>
+
+        <Button
+          type="button"
+          variant="secondary"
+          loading={isDemoLoading}
+          onClick={handleDemo}
+          className="w-full"
+        >
+          Try demo account
+        </Button>
+
         <p className="mt-4 text-center text-sm text-(--color-muted-foreground)">
           {mode === 'login' ? "Don't have an account?" : 'Already have an account?'}{' '}
           <button
